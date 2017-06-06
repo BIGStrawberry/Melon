@@ -1,0 +1,8 @@
+.codelite/*
+.clang
+*/Release/*
+*/_codelite.project
+*/*.mk
+*.o
+*/Doxyfile
+*.exe
