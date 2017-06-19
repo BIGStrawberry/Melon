@@ -64,14 +64,17 @@ uint32_t HCSR04::get_distance() {
 
 int HCSR04::get_average_distance(int samples) {
     int total_distance = 0;
+    int n_filtered = 0;
     
     for (int i = 0; i < samples; ++i) {
         int distance = get_distance();
         if ( ((total_distance / i) - distance) < 10 ) { //Filters out weird values from the average            
             total_distance += get_distance();
+        } else {
+            n_filtered++;
         }
     }    
-    return total_distance / samples;
+    return total_distance / (samples - n_filtered);
 }
 
 bool HCSR04::in_range() {
