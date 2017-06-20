@@ -55,29 +55,28 @@ int main( int argc, char **argv ) {
     /*
      * Create and add all the sensor objects to an array
      */
-//    HCSR04 obs[] = { 
-//                     HCSR04 (trigger_pin0, echo_pin0, 300),
-//                     HCSR04 (trigger_pin1, echo_pin1, 300),
-//                     HCSR04 (trigger_pin2, echo_pin2, 300),
-//                     HCSR04 (trigger_pin3, echo_pin3, 300),
-//                     HCSR04 (trigger_pin4, echo_pin4, 300),
+    HCSR04 obs[] = { 
+                     HCSR04 (trigger_pin0, echo_pin0, 300),
+                     HCSR04 (trigger_pin1, echo_pin1, 300),
+                     HCSR04 (trigger_pin2, echo_pin2, 300),
+                     HCSR04 (trigger_pin3, echo_pin3, 300),
+                     HCSR04 (trigger_pin4, echo_pin4, 300),
 //                     HCSR04 (trigger_pin5, echo_pin5, 300),
 //                     HCSR04 (trigger_pin6, echo_pin6, 300),
 //                     HCSR04 (trigger_pin7, echo_pin7, 300),
 //                     HCSR04 (trigger_pin8, echo_pin8, 300),
-//                     };
+                     };
 
     while ( 1 ) {   
-        //520 is about a 360
-        stepper.forwards(512);        
-        hwlib::wait_ms(1000);
-        stepper.backwards(512);
-    
+//        stepper.steps(260);
+        stepper.angleRotation(360);
+        
+//        hwlib::wait_ms(1000);
         /*
          * Loop through all the sensor objects
          */
-//        for (int i = 0; i < NUM_SENSORS; ++i) {
-//            hwlib::cout << "Sensor" << i << " (" << i *30 << "degrees)" << ": " << (uint32_t) obs[i].get_average_distance(3) << ". \n";
-//        }
+        for (int i = 0; i < NUM_SENSORS; ++i) {
+            hwlib::cout << "Sensor" << i << " (" << i *30 << "degrees)" << ": " << (uint32_t) obs[i].get_average_distance(3) << ". \n";
+        }
     }
 }
