@@ -22,11 +22,11 @@ int main( int argc, char **argv ) {
     auto trigger_pin1 = hwlib::target::pin_out(hwlib::target::pins::d24);
     auto echo_pin1 = hwlib::target::pin_in(hwlib::target::pins::d25);
     
-    auto trigger_pin2 = hwlib::target::pin_out(hwlib::target::pins::d26);
-    auto echo_pin2 = hwlib::target::pin_in(hwlib::target::pins::d27);
+    auto trigger_pin2 = hwlib::target::pin_out(hwlib::target::pins::d48);
+    auto echo_pin2 = hwlib::target::pin_in(hwlib::target::pins::d49);
     
-    auto trigger_pin3 = hwlib::target::pin_out(hwlib::target::pins::d48);
-    auto echo_pin3 = hwlib::target::pin_in(hwlib::target::pins::d49);
+    auto trigger_pin3 = hwlib::target::pin_out(hwlib::target::pins::d52);
+    auto echo_pin3 = hwlib::target::pin_in(hwlib::target::pins::d53);
     
     auto trigger_pin4 = hwlib::target::pin_out(hwlib::target::pins::d30);
     auto echo_pin4 = hwlib::target::pin_in(hwlib::target::pins::d31);
@@ -36,20 +36,18 @@ int main( int argc, char **argv ) {
     
     auto trigger_pin6 = hwlib::target::pin_out(hwlib::target::pins::d34);
     auto echo_pin6 = hwlib::target::pin_in(hwlib::target::pins::d35);
+
+    auto trigger_pin7 = hwlib::target::pin_out(hwlib::target::pins::d7);
+    auto echo_pin7 = hwlib::target::pin_in(hwlib::target::pins::d8);
     
-    auto trigger_pin7 = hwlib::target::pin_out(hwlib::target::pins::d36);
-    auto echo_pin7 = hwlib::target::pin_in(hwlib::target::pins::d37);
-    
-    auto trigger_pin8 = hwlib::target::pin_out(hwlib::target::pins::d38);
-    auto echo_pin8 = hwlib::target::pin_in(hwlib::target::pins::d39);
+    auto trigger_pin8 = hwlib::target::pin_out(hwlib::target::pins::d9);
+    auto echo_pin8 = hwlib::target::pin_in(hwlib::target::pins::d10);
 
     auto step_pin1 = hwlib::target::pin_out(hwlib::target::pins::d3);
     auto step_pin2 = hwlib::target::pin_out(hwlib::target::pins::d4);
     auto step_pin3 = hwlib::target::pin_out(hwlib::target::pins::d5);
     auto step_pin4 = hwlib::target::pin_out(hwlib::target::pins::d6);
     
-//    auto pins = hwlib::port_out_from_pins( step_pin1, step_pin2, step_pin3, step_pin4);
-
     Stepper stepper(step_pin1, step_pin2, step_pin3, step_pin4);
 
     /*
@@ -61,22 +59,22 @@ int main( int argc, char **argv ) {
                      HCSR04 (trigger_pin2, echo_pin2, 300),
                      HCSR04 (trigger_pin3, echo_pin3, 300),
                      HCSR04 (trigger_pin4, echo_pin4, 300),
-//                     HCSR04 (trigger_pin5, echo_pin5, 300),
-//                     HCSR04 (trigger_pin6, echo_pin6, 300),
-//                     HCSR04 (trigger_pin7, echo_pin7, 300),
-//                     HCSR04 (trigger_pin8, echo_pin8, 300),
+                     HCSR04 (trigger_pin5, echo_pin5, 300),
+                     HCSR04 (trigger_pin6, echo_pin6, 300),
+                     HCSR04 (trigger_pin7, echo_pin7, 300),
+                     HCSR04 (trigger_pin8, echo_pin8, 300),
                      };
 
-    while ( 1 ) {   
-//        stepper.steps(260);
-        stepper.angleRotation(360);
-        
-//        hwlib::wait_ms(1000);
+    while ( 1 ) {         
         /*
          * Loop through all the sensor objects
          */
         for (int i = 0; i < NUM_SENSORS; ++i) {
-            hwlib::cout << "Sensor" << i << " (" << i *30 << "degrees)" << ": " << (uint32_t) obs[i].get_average_distance(3) << ". \n";
+            int distance = obs[i].get_distance();
+            if (distance < 20) {
+                hwlib::cout << "TERMINATION DETECTED AT: " << i << " DISTANCE: " << distance << "." << hwlib::endl;
+            }
+//            hwlib::cout << "Sensor" << i << " (" << i *30 << "degrees)" << ": " << (uint32_t) obs[i].get_distance() << ". \n";
         }
     }
 }

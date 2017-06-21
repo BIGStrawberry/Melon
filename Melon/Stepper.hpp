@@ -18,6 +18,8 @@ private:
     hwlib::target::pin_out pin4; 
     
     static const int SEQUENCE[][4];
+    float currentAngle;
+    bool clockwise;
     
 public:
     /**
@@ -43,9 +45,28 @@ public:
     
     /**
      * @brief Function to rotate the stepper motor in angles
-     * @param angle Angle the stepper motor will turn
+     * @param angle Amount of angle the stepper motor will turn
      */
-    void angleRotation(float angle);
+    void turnDegrees(float angle);
+    
+    /**
+     * @brief Function to turn to a specific angle in a 360 degree circle.
+     * @param angle Angle the stepper will turn to 
+     */
+    void turnToDegree(float angle);
+    
+    /**
+     * @brief Function to check if the motor is set to turn clockwise
+     * @return True if it's clockwise, false if not
+     */
+    bool get_clockwise();
+    
+    /**
+     * @brief Function to set the motor clockwise or counter-clockwise
+     * @param clockwise True for clockwise, false for counter-clockwise
+     */
+    void set_clockwise(bool clockwise);
+
 };
 
 

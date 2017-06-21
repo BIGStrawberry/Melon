@@ -16,7 +16,7 @@ private:
     hwlib::target::pin_out trigger_pin;
     hwlib::target::pin_in echo_pin;
     
-    int termination_zone = MAX_DISTANCE;
+    int termination_zone = 5;
     
 public:
     /**
@@ -43,6 +43,7 @@ public:
     
     /**
      * @brief Function to see if something is in the termination zone
+     * @param distance uint32_t distance to check if it is in range
      * @return TRUE or FALSE
      */
     bool in_range();
