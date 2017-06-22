@@ -1,6 +1,7 @@
 #include "hwlib.hpp"
 #include "HCSR04.hpp"
 #include "Stepper.hpp"
+#include "Laser.hpp"
 
 /**
  * @brief Demo program for the project Melon.
@@ -45,30 +46,40 @@ int main( int argc, char **argv ) {
     auto step_pin3 = hwlib::target::pin_out(hwlib::target::pins::d5);
     auto step_pin4 = hwlib::target::pin_out(hwlib::target::pins::d6);
     
+    auto laserpin = hwlib::target::pin_out(hwlib::target::pins::d13);
+    
+    Laser laser(laserpin);
     Stepper stepper(step_pin1, step_pin2, step_pin3, step_pin4);
 
     //Create and add all the sensor objects to an array
     HCSR04 obs[] = { 
-                     HCSR04 (trigger_pin0, echo_pin0, 20),
-                     HCSR04 (trigger_pin1, echo_pin1, 20),
-                     HCSR04 (trigger_pin2, echo_pin2, 20),
-                     HCSR04 (trigger_pin3, echo_pin3, 20),
-                     HCSR04 (trigger_pin4, echo_pin4, 20),
-                     HCSR04 (trigger_pin5, echo_pin5, 20),
-                     HCSR04 (trigger_pin6, echo_pin6, 20),
-                     HCSR04 (trigger_pin7, echo_pin7, 20),
-                     HCSR04 (trigger_pin8, echo_pin8, 20),
+                     HCSR04 (trigger_pin0, echo_pin0, TERMINATION_ZONE),
+                     HCSR04 (trigger_pin1, echo_pin1, TERMINATION_ZONE),
+                     HCSR04 (trigger_pin2, echo_pin2, TERMINATION_ZONE),
+                     HCSR04 (trigger_pin3, echo_pin3, TERMINATION_ZONE),
+                     HCSR04 (trigger_pin4, echo_pin4, TERMINATION_ZONE),
+                     HCSR04 (trigger_pin5, echo_pin5, TERMINATION_ZONE),
+                     HCSR04 (trigger_pin6, echo_pin6, TERMINATION_ZONE),
+                     HCSR04 (trigger_pin7, echo_pin7, TERMINATION_ZONE),
+                     HCSR04 (trigger_pin8, echo_pin8, TERMINATION_ZONE),
                      };
 
     while ( 1 ) {              
         // Loop through all the sensor objects
         for (int i = 0; i < NUM_SENSORS; ++i) {
             //Check to see if the measured distance bigger than the termination zone
-            if (obs[i].in_termination_zone()) {
+            
+            uint32_t distance = obs[i].get_distance();
+            
+            if (obs[i].in_termination_zone(distance)) {
                 //Debug
-                hwlib::cout << "INTRUDER ALERT. Sensor: " << i << " (" << obs[i].get_distance() << "CM)." << hwlib::endl;
+                hwlib::cout << "INTRUDER ALERT. Sensor: " << i << " (" << distance << "CM)." << hwlib::endl;
+                
                 //Turn to the sensor that has been triggered
                 stepper.turnToSensor(i);
+                
+                //Take out perp
+                laser.turnOn(2000);
             }
             
         }

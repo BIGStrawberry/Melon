@@ -9,10 +9,10 @@
 #############################################################################
 
 # source files in this project (main.cpp is automatically assumed)
-SOURCES := HCSR04.cpp Stepper.cpp
+SOURCES := HCSR04.cpp Stepper.cpp Laser.cpp
 
 # header files in this project
-HEADERS := HCSR04.hpp Stepper.hpp
+HEADERS := HCSR04.hpp Stepper.hpp Laser.hpp
 
 # other places to look for files for this project
 SEARCH  := 

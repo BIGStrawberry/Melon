@@ -12,6 +12,7 @@
  * @brief Class for the HCSR04 Ultrasonic Sensor
  */
 class HCSR04 {
+    
 private:
     hwlib::target::pin_out trigger_pin;
     hwlib::target::pin_in echo_pin;
@@ -46,7 +47,7 @@ public:
      * @param distance uint32_t distance to check if it is in range
      * @return TRUE or FALSE
      */
-    bool in_termination_zone();
+    bool in_termination_zone(uint32_t distance);
          
     /**
      * @brief Function to get the termination zone

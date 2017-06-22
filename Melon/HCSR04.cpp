@@ -55,8 +55,8 @@ int HCSR04::get_average_distance(int samples) {
     return total_distance / (samples - n_filtered);
 }
 
-bool HCSR04::in_termination_zone() {
-    return (uint32_t)this->get_termination_zone() > this->get_distance();
+bool HCSR04::in_termination_zone(uint32_t distance) {
+    return (uint32_t)this->get_termination_zone() > distance;
 }
 
 int HCSR04::get_termination_zone() {
