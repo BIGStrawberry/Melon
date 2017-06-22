@@ -1,4 +1,3 @@
-
 #include "HCSR04.hpp"
 #include "config.hpp"
 
@@ -6,7 +5,9 @@ HCSR04::HCSR04(hwlib::target::pin_out& trigger_pin, hwlib::target::pin_in& echo_
     trigger_pin(trigger_pin),
     echo_pin(echo_pin),
     termination_zone(termination_zone)    
-{}
+    {
+        termination_zone = TERMINATION_ZONE;
+    }
 
 uint32_t HCSR04::get_distance() {
     //Send pulse
@@ -54,8 +55,8 @@ int HCSR04::get_average_distance(int samples) {
     return total_distance / (samples - n_filtered);
 }
 
-bool HCSR04::in_range() {
-    return  ( uint32_t ) termination_zone > ( uint32_t ) get_distance();
+bool HCSR04::in_termination_zone() {
+    return (uint32_t)this->get_termination_zone() > this->get_distance();
 }
 
 int HCSR04::get_termination_zone() {

@@ -56,6 +56,12 @@ public:
     void turnToDegree(float angle);
     
     /**
+     * @brief Function to turn the stepper motor to a sensor
+     * @param sensor_id - int : sensor number you want to turn to
+     */
+    void turnToSensor(int sensor_id);
+    
+    /**
      * @brief Function to check if the motor is set to turn clockwise
      * @return True if it's clockwise, false if not
      */
@@ -63,9 +69,22 @@ public:
     
     /**
      * @brief Function to set the motor clockwise or counter-clockwise
-     * @param clockwise True for clockwise, false for counter-clockwise
+     * @param bool : clockwise True for clockwise, false for counter-clockwise
      */
     void set_clockwise(bool clockwise);
+    
+    /**
+     * @brief Function to get the current angle of the motor
+     * @return float : current angle of the stepper motor
+     */
+    float get_current_angle();
+    
+    /**
+     * @brief Function to set the current angle of the motor (without actually turning it)
+     * @param angle - float : angle
+     * WARNING: DOESN'T ACTUALLY TURN THE MOTOR, IT ONLY SETS THE CURRENT ANGLE VALUE
+     */
+    void set_current_angle(float angle);
 
 };
 

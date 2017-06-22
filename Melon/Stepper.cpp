@@ -1,4 +1,5 @@
 #include "Stepper.hpp"
+#include <Math.h>
 
 const int Stepper::SEQUENCE[][4] = {
 		{ 0, 0, 0, 1 },
@@ -11,7 +12,7 @@ const int Stepper::SEQUENCE[][4] = {
 		{ 1, 0, 0, 0 }
     };
     
-float currentAngle = 0.0;
+float currentAngle;
 bool clockwise = true;
 
 Stepper::Stepper(hwlib::target::pin_out &pin1, hwlib::target::pin_out &pin2, hwlib::target::pin_out &pin3, hwlib::target::pin_out &pin4 ):
@@ -19,7 +20,9 @@ Stepper::Stepper(hwlib::target::pin_out &pin1, hwlib::target::pin_out &pin2, hwl
     pin2(pin2),
     pin3(pin3),
     pin4(pin4)
-{}
+    {
+        currentAngle = 0;
+    }
 
 void Stepper::step() {
     for (int j = 0; j < 8; ++j) {
@@ -40,31 +43,39 @@ void Stepper::step() {
 }
 
 void Stepper::steps(int steps) {
-    if (steps > 0) {
-        set_clockwise(true);
-        hwlib::cout << "Clockwise?: " << this->get_clockwise() << hwlib::endl;
-    } else {
-        set_clockwise(false);
-        hwlib::cout << "Clockwise?: " << this->get_clockwise() << hwlib::endl;
-    }
+    //Check to see if we need to turn clockwise, or counterclockwise
+    set_clockwise(steps > 0 ? true : false);
     
-    for (int i = 0; i < steps; ++i) {
+    //Make sure the number of steps is positive
+    //A negative number of steps are still steps, just in a different direction
+    int noOfSteps = fabsf(steps);
+    
+    //Perform the steps
+    for (int i = 0; i < noOfSteps; ++i) {
         this->step();
     }
 }
 
 void Stepper::turnDegrees(float angle) {
-    currentAngle = currentAngle + angle;
+    //Keep track off what our current angle is
+    this->set_current_angle(this->get_current_angle() + angle);
 
+    /* Debugging */
     hwlib::cout << "Turn Angle: " << (int)angle << "." << hwlib::endl;
     hwlib::cout << "Current Angle: " << (int)currentAngle << "." << hwlib::endl;
     hwlib::cout << "Steps: " << (int)(256 * angle) / 360 << "." << hwlib::endl;
-   
+    /* Debugging */
+    
+    //Calculate how many steps are needed to turn an X amount of degrees
     steps((int) (256 * angle) / 360);
 }
 
-void Stepper::turnToDegree(float angle) {
+void Stepper::turnToDegree(float angle) {    
     this->turnDegrees(angle-currentAngle);
+}
+
+void Stepper::turnToSensor(int sensor_id) {
+    this->turnToDegree(sensor_id * 40);
 }
 
 bool Stepper::get_clockwise() {
@@ -73,4 +84,12 @@ bool Stepper::get_clockwise() {
 
 void Stepper::set_clockwise(bool clockwise) {
     this->clockwise = clockwise;
+}
+
+float Stepper::get_current_angle() {
+    return currentAngle;
+}
+
+void Stepper::set_current_angle(float angle) {
+    this->currentAngle = angle;
 }
