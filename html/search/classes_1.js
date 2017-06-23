@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['stepper',['Stepper',['../class_stepper.html',1,'']]]
+  ['laser',['Laser',['../class_laser.html',1,'']]]
 ];
