@@ -1,3 +1,8 @@
+//          Copyright Wouter Dijkstra 2017
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)
+
 #include "hwlib.hpp"
 #include "HCSR04.hpp"
 #include "Stepper.hpp"
@@ -79,7 +84,7 @@ int main( int argc, char **argv ) {
                 stepper.turnToSensor(i);
                 
                 //Take out perp
-                laser.turnOn(2000);
+                laser.turnOn(1000);
             }
             
         }

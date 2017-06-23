@@ -1,5 +1,11 @@
+//          Copyright Wouter Dijkstra 2017
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)
+
 #ifndef MELON_STEPPER_HPP
 #define MELON_STEPPER_HPP
+
 
 #include <hwlib.hpp>
 
@@ -30,7 +36,7 @@ public:
      * @param pin4  PIN4 on the Stepper driver board
      */
     Stepper(hwlib::target::pin_out &pin1, hwlib::target::pin_out &pin2, hwlib::target::pin_out &pin3, hwlib::target::pin_out &pin4);
-    
+    hwlib::wai
     
     /**
      * @brief Function to perform a single step
