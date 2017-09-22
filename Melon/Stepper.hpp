@@ -36,7 +36,6 @@ public:
      * @param pin4  PIN4 on the Stepper driver board
      */
     Stepper(hwlib::target::pin_out &pin1, hwlib::target::pin_out &pin2, hwlib::target::pin_out &pin3, hwlib::target::pin_out &pin4);
-    hwlib::wai
     
     /**
      * @brief Function to perform a single step
